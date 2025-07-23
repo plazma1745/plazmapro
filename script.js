@@ -11,34 +11,60 @@ document.addEventListener('DOMContentLoaded', function() {
   
   if (form) {
     form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Get form data
-      const formData = new FormData(form);
-      const name = form.querySelector('input[name="name"]').value;
-      const phone = form.querySelector('input[name="phone"]').value;
-      const email = form.querySelector('input[name="email"]').value;
-      const message = form.querySelector('textarea[name="message"]').value;
-      
-      // Simple validation
-      if (!name || !phone || !email || !message) {
-        alert('Пожалуйста, заполните все поля');
-        return;
+      // On Replit, prevent default and simulate submission
+      // On Netlify, this will be handled natively
+      if (window.location.hostname.includes('replit') || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        e.preventDefault();
+        
+        // Get form data
+        const name = form.querySelector('input[name="name"]').value.trim();
+        const phone = form.querySelector('input[name="phone"]').value.trim();
+        const email = form.querySelector('input[name="email"]').value.trim();
+        const message = form.querySelector('textarea[name="message"]').value.trim();
+        
+        // Simple validation
+        if (!name || !phone || !email || !message) {
+          alert('Пожалуйста, заполните все поля');
+          return;
+        }
+        
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          alert('Пожалуйста, введите корректный email');
+          return;
+        }
+        
+        // Phone validation (basic)
+        const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
+        if (!phoneRegex.test(phone)) {
+          alert('Пожалуйста, введите корректный номер телефона');
+          return;
+        }
+        
+        // Simulate form submission
+        const submitButton = form.querySelector('button[type="submit"]');
+        const originalText = submitButton.textContent;
+        
+        submitButton.textContent = 'Отправляется...';
+        submitButton.disabled = true;
+        
+        // Show form data in console for testing
+        console.log('Данные формы:', {
+          name: name,
+          phone: phone,
+          email: email,
+          message: message
+        });
+        
+        setTimeout(() => {
+          alert('Спасибо за заявку! Мы свяжемся с вами в ближайшее время.');
+          form.reset();
+          submitButton.textContent = originalText;
+          submitButton.disabled = false;
+        }, 2000);
       }
-      
-      // Simulate form submission
-      const submitButton = form.querySelector('button[type="submit"]');
-      const originalText = submitButton.textContent;
-      
-      submitButton.textContent = 'Отправляется...';
-      submitButton.disabled = true;
-      
-      setTimeout(() => {
-        alert('Спасибо за заявку! Мы свяжемся с вами в ближайшее время.');
-        form.reset();
-        submitButton.textContent = originalText;
-        submitButton.disabled = false;
-      }, 2000);
+      // On Netlify, form will be submitted naturally with data-netlify="true"
     });
   }
   
