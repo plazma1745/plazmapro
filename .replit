@@ -7,3 +7,15 @@ packages = ["run"]
 
 [deployment]
 run = ["sh", "-c", "run"]
+
+[workflows]
+runButton = "Start Server"
+
+[[workflows.workflow]]
+name = "Start Server"
+author = 27163025
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "python -m http.server 5000"
