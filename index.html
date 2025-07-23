@@ -116,12 +116,12 @@
               <p>Пн-Пт: 9:00-18:00<br>Сб: 10:00-16:00</p>
             </div>
           </div>
-          <form class="contact-form">
+          <form class="contact-form" name="contact" method="POST" data-netlify="true">
             <h3>Отправить заявку</h3>
-            <input type="text" placeholder="Ваше имя" required>
-            <input type="tel" placeholder="Телефон" required>
-            <input type="email" placeholder="Email" required>
-            <textarea placeholder="Описание задачи" rows="4" required></textarea>
+            <input type="text" name="name" placeholder="Ваше имя" required>
+            <input type="tel" name="phone" placeholder="Телефон" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <textarea name="message" placeholder="Описание задачи" rows="4" required></textarea>
             <button type="submit">Отправить заявку</button>
           </form>
         </div>
